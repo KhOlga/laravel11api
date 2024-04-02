@@ -1,8 +1,10 @@
 import './bootstrap';
 
 import { createApp } from 'vue';
-import ProductsIndex from './components/Products/Index.vue';
+import App from './layouts/App.vue';
 
-createApp({})
-	.component('ProductsIndex', ProductsIndex)
+import router from './routes/index';
+
+createApp(App)
+	.use(router)
 	.mount('#app');
