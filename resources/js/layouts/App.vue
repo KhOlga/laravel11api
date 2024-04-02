@@ -58,6 +58,5 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
-
 const currentPageTitle = computed(() => route.meta.title);
 </script>

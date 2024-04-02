@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -15,8 +19,15 @@ class ProductController extends Controller
 			->when(request('category'), function (Builder $query) {
 				$query->where('category_id', request('category'));
 			})
-			->paginate(3);
+			->paginate(8);
 
 		return ProductResource::collection($products);
+	}
+
+	public function store(StoreProductRequest $request)
+	{
+		$product = Product::create($request->validated());
+
+		return new ProductResource($product);
 	}
 }
