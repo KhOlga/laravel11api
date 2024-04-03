@@ -18,7 +18,7 @@ export default function useProducts() {
 	};
 
 	const storeProduct = async (product) => {
-		axios.post('/api/products', product)
+		axios.product('/api/products', product)
 			.then(response => {
 				router.push({ name: 'products.index' })
 			})
