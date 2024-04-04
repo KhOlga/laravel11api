@@ -25,7 +25,13 @@ class StoreProductRequest extends FormRequest
 			'name' => ['required'],
 			'description' => ['required'],
 			'category_id' => ['required',  'exists:categories,id'],
+			'photo' => ['nullable'],
 			'price' => ['required']
         ];
     }
+
+	public function attributes(): array
+	{
+		return ['category_id' => 'category'];
+	}
 }

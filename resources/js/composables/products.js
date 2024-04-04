@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 export default function useProducts() {
 	const products = ref({});
 	const router = useRouter();
+	const validationErrors = ref({});
 
 	const getProducts = async (
 		page = 1,
@@ -14,15 +15,20 @@ export default function useProducts() {
 			.then(response => {
 				products.value = response.data;
 			})
-			.catch((error) => console.log(error));
+
 	};
 
 	const storeProduct = async (product) => {
-		axios.product('/api/products', product)
+		axios.post('/api/products', product)
 			.then(response => {
 				router.push({ name: 'products.index' })
 			})
+			.catch(error => {
+				if (error.response?.data) {
+					validationErrors.value = error.response.data.errors
+				}
+			});
 	};
 
-	return { products, getProducts, storeProduct };
+	return { products, getProducts, storeProduct, validationErrors };
 }
