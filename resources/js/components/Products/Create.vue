@@ -6,6 +6,11 @@
 				Name
 			</label>
 			<input v-model="product.name" id="product-name" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+			<div class="text-red-600 mt-1">
+				<div v-for="message in validationErrors?.name">
+					{{ message }}
+				</div>
+			</div>
 		</div>
 
 		<!-- Description -->
@@ -14,6 +19,11 @@
 				Description
 			</label>
 			<textarea v-model="product.description" id="product-description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+			<div class="text-red-600 mt-1">
+				<div v-for="message in validationErrors?.description">
+					{{ message }}
+				</div>
+			</div>
 		</div>
 
 		<!-- Category -->
@@ -27,6 +37,11 @@
 					{{ category.name }}
 				</option>
 			</select>
+			<div class="text-red-600 mt-1">
+				<div v-for="message in validationErrors?.category_id">
+					{{ message }}
+				</div>
+			</div>
 		</div>
 
 		<!-- Price -->
@@ -35,6 +50,11 @@
 				Price
 			</label>
 			<input v-model="product.price" id="product-price" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+			<div class="text-red-600 mt-1">
+				<div v-for="message in validationErrors.price">
+					{{ message }}
+				</div>
+			</div>
 		</div>
 
 		<!-- Buttons -->
@@ -57,7 +77,7 @@ const product = reactive({
 });
 
 const { categories, getCategories } = useCategories();
-const { storeProduct } = useProducts();
+const { storeProduct, validationErrors } = useProducts();
 
 onMounted(() => {
 	getCategories()
