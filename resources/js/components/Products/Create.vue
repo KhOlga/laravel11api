@@ -44,6 +44,19 @@
 			</div>
 		</div>
 
+		<!-- Photo -->
+		<div class="mt-4">
+			<label for="photo" class="block font-medium text-sm text-gray-700">
+				Photo
+			</label>
+			<input @change="product.photo = $event.target.files[0]" type="file" id="photo" />
+			<div class="text-red-600 mt-1">
+				<div v-for="message in validationErrors?.photo">
+					{{ message }}
+				</div>
+			</div>
+		</div>
+
 		<!-- Price -->
 		<div class="mt-4">
 			<label for="product-price" class="block text-sm font-medium text-gray-700">
@@ -59,7 +72,11 @@
 
 		<!-- Buttons -->
 		<div class="mt-4">
-			<button class="rounded-md bg-indigo-600 px-3 py-2 text-sm uppercase text-white">Save</button>
+			<button :disabled="isLoading" class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm uppercase text-white disabled:opacity-75 disabled:cursor-not-allowed">
+				<span v-show="isLoading" class="inline-block animate-spin w-4 h-4 mr-2 border-t-2 border-t-white border-r-2 border-r-white border-b-2 border-b-white border-l-2 border-l-blue-600 rounded-full"></span>
+				<span v-if="isLoading">Processing...</span>
+				<span v-else>Save</span>
+			</button>
 		</div>
 	</form>
 </template>
@@ -73,11 +90,12 @@ const product = reactive({
 	name: '',
 	description: '',
 	category_id: '',
+	photo: '',
 	price: ''
 });
 
 const { categories, getCategories } = useCategories();
-const { storeProduct, validationErrors } = useProducts();
+const { storeProduct, validationErrors, isLoading } = useProducts();
 
 onMounted(() => {
 	getCategories()
