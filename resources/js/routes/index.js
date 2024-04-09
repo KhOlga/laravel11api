@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import ProductsIndex from '@/components/Products/Index.vue'
-import ProductsCreate from '@/components/Products/Create.vue'
+import ProductsIndex from '@/components/Products/Index.vue';
+import ProductsCreate from '@/components/Products/Create.vue';
+import ProductsEdit from '@/components/Products/Edit.vue';
 
 const routes = [
 	{
@@ -15,6 +16,12 @@ const routes = [
 		name: 'products.create',
 		component: ProductsCreate,
 		meta: { title: 'Create New Product' }
+	},
+	{
+		path: '/products/edit/:id',
+		name: 'products.edit',
+		component: ProductsEdit,
+		meta: { title: 'Edit Product' }
 	},
 ]
 
