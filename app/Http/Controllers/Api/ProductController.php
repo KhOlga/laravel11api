@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EditProductRequest;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
@@ -28,7 +29,7 @@ class ProductController extends Controller
 
 		if ($request->hasFile('photo')) {
 			$file = $request->file('photo');
-			$name = 'categories/' . Str::uuid() . '.' . $file->extension();
+			$name = 'products/' . Str::uuid() . '.' . $file->extension();
 			$file->storePubliclyAs('public', $name);
 			$data['photo'] = $name;
 		}
@@ -36,5 +37,18 @@ class ProductController extends Controller
 		$product = Product::create($data);
 
 		return new ProductResource($product);
+	}
+
+	public function show(Product $product)
+	{
+		$product->load('category');
+		return new ProductResource($product);
+	}
+
+	public function update(Product $category, EditProductRequest $request)
+	{
+		$category->update($request->validated());
+
+		return new ProductResource($category);
 	}
 }

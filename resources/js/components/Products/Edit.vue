@@ -1,5 +1,5 @@
 <template>
-	<form @submit.prevent="storeProduct(product)">
+	<form @submit.prevent="updateProduct(product)">
 		<!-- Name -->
 		<div>
 			<label for="product-name" class="block text-sm font-medium text-gray-700">
@@ -82,22 +82,17 @@
 </template>
 
 <script setup>
-import { onMounted, reactive } from 'vue';
+import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import useCategories from '@/composables/categories';
-import useProducts from '@/composables/products.js';
-
-const product = reactive({
-	name: '',
-	description: '',
-	category_id: '',
-	photo: '',
-	price: ''
-});
+import useProducts from '@/composables/products';
 
 const { categories, getCategories } = useCategories();
-const { storeProduct, validationErrors, isLoading } = useProducts();
+const { product, getProduct, updateProduct, validationErrors, isLoading } = useProducts();
+const route = useRoute();
 
 onMounted(() => {
+	getProduct(route.params.id)
 	getCategories()
 })
 </script>
